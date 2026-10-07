@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"net/http"
+	"net/url"
 	"strings"
 )
 
@@ -34,6 +35,15 @@ func CORS(allowed []string) func(http.Handler) http.Handler {
 			next.ServeHTTP(w, r)
 		})
 	}
+}
+
+// sameOrigin reports whether the Origin header matches the request Host.
+func sameOrigin(origin string, r *http.Request) bool {
+	u, err := url.Parse(origin)
+	if err != nil || u.Host == "" {
+		return false
+	}
+	return strings.EqualFold(u.Host, r.Host)
 }
 
 // CSRF enforces that unsafe methods (a) are application/json (already checked
