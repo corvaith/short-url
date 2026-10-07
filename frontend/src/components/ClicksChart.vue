@@ -61,7 +61,9 @@ function shortDate(date: string): string {
     >
       <g v-for="tick in yTicks" :key="tick.value">
         <line :x1="PAD.left" :x2="WIDTH - PAD.right" :y1="tick.y" :y2="tick.y" class="gridline" />
-        <text :x="PAD.left - 6" :y="tick.y + 4" class="tick" text-anchor="end">{{ tick.value }}</text>
+        <text :x="PAD.left - 6" :y="tick.y + 4" class="tick" text-anchor="end">
+          {{ tick.value }}
+        </text>
       </g>
       <rect
         v-for="bar in bars"
@@ -75,13 +77,17 @@ function shortDate(date: string): string {
         <title>{{ bar.date }}: {{ bar.clicks }} clicks</title>
       </rect>
       <text
-        v-for="(bar, i) in bars.filter((_, i2) => bars.length <= 10 || i2 % Math.ceil(bars.length / 8) === 0)"
+        v-for="(bar, i) in bars.filter(
+          (_, i2) => bars.length <= 10 || i2 % Math.ceil(bars.length / 8) === 0,
+        )"
         :key="'l' + i"
         :x="bar.x + bar.w / 2"
         :y="HEIGHT - 8"
         class="tick"
         text-anchor="middle"
-      >{{ shortDate(bar.date) }}</text>
+      >
+        {{ shortDate(bar.date) }}
+      </text>
     </svg>
     <p v-if="series.every((p) => p.clicks === 0)" class="no-clicks">No clicks yet</p>
   </div>

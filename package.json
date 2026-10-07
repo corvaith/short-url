@@ -1,0 +1,14 @@
+{
+  "name": "shortink",
+  "private": true,
+  "version": "1.0.0",
+  "description": "ShortINK — URL shortener (Go backend + Vue 3 frontend)",
+  "license": "ISC",
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "prettier": "^3.3.0"
+  }
+}

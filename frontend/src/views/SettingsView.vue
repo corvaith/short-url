@@ -49,15 +49,35 @@ async function onLogout(): Promise<void> {
       <h2 class="card-title">Account</h2>
       <div class="field">
         <label class="field-label" for="email">Email</label>
-        <input id="email" class="input" type="email" :value="user?.email ?? ''" readonly aria-readonly="true" />
+        <input
+          id="email"
+          class="input"
+          type="email"
+          :value="user?.email ?? ''"
+          readonly
+          aria-readonly="true"
+        />
       </div>
     </section>
 
     <section class="card setting-card">
       <h2 class="card-title">Change password</h2>
       <form class="stack" novalidate @submit.prevent="changePassword">
-        <FormField v-model="currentPassword" label="Current password" type="password" autocomplete="current-password" required />
-        <FormField v-model="newPassword" label="New password" type="password" autocomplete="new-password" required hint="At least 8 characters." />
+        <FormField
+          v-model="currentPassword"
+          label="Current password"
+          type="password"
+          autocomplete="current-password"
+          required
+        />
+        <FormField
+          v-model="newPassword"
+          label="New password"
+          type="password"
+          autocomplete="new-password"
+          required
+          hint="At least 8 characters."
+        />
         <p v-if="passwordError" class="field-error" role="alert">{{ passwordError }}</p>
         <BaseButton type="submit" :loading="saving">Update password</BaseButton>
       </form>

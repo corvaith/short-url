@@ -5,7 +5,16 @@ const emit = defineEmits<{ retry: [] }>()
 
 <template>
   <div class="error card" role="alert">
-    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--color-danger)" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+    <svg
+      width="40"
+      height="40"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="var(--color-danger)"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      aria-hidden="true"
+    >
       <circle cx="12" cy="12" r="9" />
       <path d="M12 8v4.5M12 16h.01" />
     </svg>

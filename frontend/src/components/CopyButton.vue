@@ -3,12 +3,21 @@ import { useClipboard } from '../composables/useClipboard'
 import { useToast } from '../composables/useToast'
 import BaseButton from './BaseButton.vue'
 
-const props = withDefaults(defineProps<{ text: string; label?: string; variant?: 'primary' | 'secondary' | 'ghost'; size?: 'md' | 'sm'; block?: boolean }>(), {
-  label: 'Copy',
-  variant: 'secondary',
-  size: 'md',
-  block: false,
-})
+const props = withDefaults(
+  defineProps<{
+    text: string
+    label?: string
+    variant?: 'primary' | 'secondary' | 'ghost'
+    size?: 'md' | 'sm'
+    block?: boolean
+  }>(),
+  {
+    label: 'Copy',
+    variant: 'secondary',
+    size: 'md',
+    block: false,
+  },
+)
 
 const { copied, copy } = useClipboard()
 const toast = useToast()

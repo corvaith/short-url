@@ -31,7 +31,10 @@ function onKeydown(e: KeyboardEvent): void {
     const buttons = Array.from(menuRef.value?.querySelectorAll('button') ?? [])
     if (!buttons.length) return
     const idx = buttons.indexOf(document.activeElement as HTMLButtonElement)
-    const next = e.key === 'ArrowDown' ? (idx + 1) % buttons.length : (idx - 1 + buttons.length) % buttons.length
+    const next =
+      e.key === 'ArrowDown'
+        ? (idx + 1) % buttons.length
+        : (idx - 1 + buttons.length) % buttons.length
     buttons[next]?.focus()
   }
 }
@@ -60,7 +63,9 @@ function choose(key: string): void {
       @click.stop="open = !open"
     >
       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <circle cx="5" cy="12" r="1.8" /><circle cx="12" cy="12" r="1.8" /><circle cx="19" cy="12" r="1.8" />
+        <circle cx="5" cy="12" r="1.8" />
+        <circle cx="12" cy="12" r="1.8" />
+        <circle cx="19" cy="12" r="1.8" />
       </svg>
     </button>
 
@@ -68,13 +73,29 @@ function choose(key: string): void {
       <div v-if="open && isMobile" class="sheet-backdrop" @click="open = false">
         <div :id="menuId" ref="menuRef" class="sheet" role="menu" @click.stop>
           <div class="sheet-handle" aria-hidden="true" />
-          <button v-for="item in items" :key="item.key" type="button" role="menuitem" class="sheet-item" :class="{ danger: item.danger }" @click="choose(item.key)">
+          <button
+            v-for="item in items"
+            :key="item.key"
+            type="button"
+            role="menuitem"
+            class="sheet-item"
+            :class="{ danger: item.danger }"
+            @click="choose(item.key)"
+          >
             {{ item.label }}
           </button>
         </div>
       </div>
       <div v-else-if="open" :id="menuId" ref="menuRef" class="popover" role="menu">
-        <button v-for="item in items" :key="item.key" type="button" role="menuitem" class="popover-item" :class="{ danger: item.danger }" @click="choose(item.key)">
+        <button
+          v-for="item in items"
+          :key="item.key"
+          type="button"
+          role="menuitem"
+          class="popover-item"
+          :class="{ danger: item.danger }"
+          @click="choose(item.key)"
+        >
           {{ item.label }}
         </button>
       </div>

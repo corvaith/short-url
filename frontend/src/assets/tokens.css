@@ -1,65 +1,86 @@
 /* ShortINK design tokens — from DESIGN.md (Pastebin-inspired system, light theme).
    Sharp corners, 1px hairline borders, color-blocking elevation (no card shadows). */
-:root{
-/* Brand & interactive */
---color-primary:#38803C;            /* theme accent (measured 4.86:1 on white — AA) */
---color-primary-hover:#327536;
---color-primary-contrast:#FFFFFF;   /* white text on green (4.7:1 AA) */
---color-primary-soft:#EAF4EA;
---color-brand:#61BA65;              /* brand green: focus ring / highlights / logo */
---color-link:#CC0033;               /* inline links (deep red) */
---color-link-hover:#23527C;
-/* Surfaces */
---color-background:#F7F7F7;         /* canvas */
---color-surface:#FFFFFF;            /* surface-alt */
---color-surface-muted:#F6F6F6;      /* surfaceRaised */
-/* Text */
---color-text:#181818;               /* ink */
---color-muted:#666666;              /* secondary body */
---color-faint:#999999;              /* metadata, disabled */
-/* Borders */
---color-border:#DDDDDD;             /* hairline */
---color-border-strong:#CCCCCC;
-/* Status */
---color-success:#3A8A3E;
---color-success-soft:#EAF4EA;
---color-warning:#8A6D3B;
---color-warning-soft:#FBF3E4;
---color-danger:#CC0033;             /* link red doubles as destructive/error */
---color-danger-soft:#FBE9EC;
-/* Focus (input blue glow per design.md) */
---color-focus:#66AFEA;
---ring:0 0 0 1px rgba(102,175,233,.6),0 0 8px rgba(102,175,233,.6);
-/* Header band gradient (decorative accent-1) */
---header-grad:linear-gradient(rgb(2,63,99),rgb(2,77,108));
---header-text:#FFFFFF;
-/* Type */
---font-sans:"Segoe UI",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
---font-mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
---text-xs:.75rem;          /* 12px  body-xs */
---text-sm:.8rem;           /* 12.8px body-sm */
---text-base:1rem;          /* 16px  body-md */
---text-lg:1.125rem;--text-xl:1.25rem;--text-2xl:1.5rem;
---text-3xl:clamp(1.75rem,1.2rem + 2.5vw,2.375rem);
---leading-tight:1.2;--leading-normal:1.5;
---weight-regular:400;--weight-medium:500;--weight-semibold:600;
-/* Radii — sharp, per rounded scale */
---radius-sm:3px;--radius-md:3px;
---radius-lg:0px;           /* cards: no rounding */
---radius-full:999px;
-/* Elevation: color-blocking only */
---shadow-sm:none;--shadow-md:none;
-/* Spacing (4/8/12/16/20/24/28/40/52) */
---space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:20px;
---space-6:24px;--space-8:28px;--space-10:40px;--space-12:52px;
-/* Layout */
---container-max:1340px;    /* measured max at 1440 viewport */
---page-pad:16px;
---tap-min:44px;            /* PRD a11y target (design min 30px) */
---topbar-h:60px;           /* spacing.band */
---bottomnav-h:56px;
---duration-fast:120ms;
---duration-base:180ms;
---ease:cubic-bezier(.2,.0,.0,1);
+:root {
+  /* Brand & interactive */
+  --color-primary: #38803c; /* theme accent (measured 4.86:1 on white — AA) */
+  --color-primary-hover: #327536;
+  --color-primary-contrast: #ffffff; /* white text on green (4.7:1 AA) */
+  --color-primary-soft: #eaf4ea;
+  --color-brand: #61ba65; /* brand green: focus ring / highlights / logo */
+  --color-link: #cc0033; /* inline links (deep red) */
+  --color-link-hover: #23527c;
+  /* Surfaces */
+  --color-background: #f7f7f7; /* canvas */
+  --color-surface: #ffffff; /* surface-alt */
+  --color-surface-muted: #f6f6f6; /* surfaceRaised */
+  /* Text */
+  --color-text: #181818; /* ink */
+  --color-muted: #666666; /* secondary body */
+  --color-faint: #999999; /* metadata, disabled */
+  /* Borders */
+  --color-border: #dddddd; /* hairline */
+  --color-border-strong: #cccccc;
+  /* Status */
+  --color-success: #3a8a3e;
+  --color-success-soft: #eaf4ea;
+  --color-warning: #8a6d3b;
+  --color-warning-soft: #fbf3e4;
+  --color-danger: #cc0033; /* link red doubles as destructive/error */
+  --color-danger-soft: #fbe9ec;
+  /* Focus (input blue glow per design.md) */
+  --color-focus: #66afea;
+  --ring: 0 0 0 1px rgba(102, 175, 233, 0.6), 0 0 8px rgba(102, 175, 233, 0.6);
+  /* Header band gradient (decorative accent-1) */
+  --header-grad: linear-gradient(rgb(2, 63, 99), rgb(2, 77, 108));
+  --header-text: #ffffff;
+  /* Type */
+  --font-sans: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+  --text-xs: 0.75rem; /* 12px  body-xs */
+  --text-sm: 0.8rem; /* 12.8px body-sm */
+  --text-base: 1rem; /* 16px  body-md */
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: clamp(1.75rem, 1.2rem + 2.5vw, 2.375rem);
+  --leading-tight: 1.2;
+  --leading-normal: 1.5;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  /* Radii — sharp, per rounded scale */
+  --radius-sm: 3px;
+  --radius-md: 3px;
+  --radius-lg: 0px; /* cards: no rounding */
+  --radius-full: 999px;
+  /* Elevation: color-blocking only */
+  --shadow-sm: none;
+  --shadow-md: none;
+  /* Spacing (4/8/12/16/20/24/28/40/52) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 28px;
+  --space-10: 40px;
+  --space-12: 52px;
+  /* Layout */
+  --container-max: 1340px; /* measured max at 1440 viewport */
+  --page-pad: 16px;
+  --tap-min: 44px; /* PRD a11y target (design min 30px) */
+  --topbar-h: 60px; /* spacing.band */
+  --bottomnav-h: 56px;
+  --duration-fast: 120ms;
+  --duration-base: 180ms;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
 }
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}

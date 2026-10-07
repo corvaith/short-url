@@ -27,14 +27,20 @@ async function onCopy(u: UrlItem): Promise<void> {
 
 function fmtDate(iso: string | null): string {
   if (!iso) return '—'
-  return new Date(iso).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })
+  return new Date(iso).toLocaleDateString(undefined, {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  })
 }
 </script>
 
 <template>
   <div class="table-wrap card">
     <table class="url-table">
-      <caption class="sr-only">Your shortened URLs with clicks, status, and dates</caption>
+      <caption class="sr-only">
+        Your shortened URLs with clicks, status, and dates
+      </caption>
       <thead>
         <tr>
           <th scope="col">Short URL</th>
@@ -57,7 +63,9 @@ function fmtDate(iso: string | null): string {
           <td>{{ fmtDate(u.expires_at) }}</td>
           <td class="cell-actions">
             <button type="button" class="btn btn-secondary btn-sm" @click="onCopy(u)">Copy</button>
-            <a class="btn btn-secondary btn-sm" :href="u.short_url" target="_blank" rel="noopener">Open</a>
+            <a class="btn btn-secondary btn-sm" :href="u.short_url" target="_blank" rel="noopener"
+              >Open</a
+            >
             <ActionMenu :items="itemsFor(u)" @select="emit('action', u.id, $event)" />
           </td>
         </tr>

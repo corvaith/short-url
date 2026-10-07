@@ -19,7 +19,9 @@ const menuItems: MenuItem[] = [
 ]
 
 function itemsFor(u: UrlItem): MenuItem[] {
-  return menuItems.map((i) => (i.key === 'toggle' ? { ...i, label: u.is_active ? 'Disable' : 'Enable' } : i))
+  return menuItems.map((i) =>
+    i.key === 'toggle' ? { ...i, label: u.is_active ? 'Disable' : 'Enable' } : i,
+  )
 }
 
 async function onCopy(): Promise<void> {
@@ -40,18 +42,25 @@ function fmtDate(iso: string | null): string {
 <template>
   <article class="url-card card">
     <a class="short mono" :href="`/urls/${url.id}`">{{ url.short_url }}</a>
-    <a class="target clamp-2" :href="url.target_url" target="_blank" rel="noopener" :title="url.target_url">
+    <a
+      class="target clamp-2"
+      :href="url.target_url"
+      target="_blank"
+      rel="noopener"
+      :title="url.target_url"
+    >
       {{ url.target_url }}
     </a>
-    <p class="meta">
-      {{ url.clicks }} clicks · <StatusBadge :status="url.status" />
-    </p>
+    <p class="meta">{{ url.clicks }} clicks · <StatusBadge :status="url.status" /></p>
     <p class="meta muted">
-      Created {{ fmtDate(url.created_at) }}<template v-if="url.expires_at"> · Expires {{ fmtDate(url.expires_at) }}</template>
+      Created {{ fmtDate(url.created_at)
+      }}<template v-if="url.expires_at"> · Expires {{ fmtDate(url.expires_at) }}</template>
     </p>
     <div class="actions">
       <button type="button" class="btn btn-secondary btn-sm" @click="onCopy">Copy</button>
-      <a class="btn btn-secondary btn-sm" :href="url.short_url" target="_blank" rel="noopener">Open</a>
+      <a class="btn btn-secondary btn-sm" :href="url.short_url" target="_blank" rel="noopener"
+        >Open</a
+      >
       <ActionMenu :items="itemsFor(url)" @select="onMenu" />
     </div>
   </article>

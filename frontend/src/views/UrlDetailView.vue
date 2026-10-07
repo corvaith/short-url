@@ -83,12 +83,19 @@ async function doDelete(): Promise<void> {
   }
 }
 
+function onConfirmDelete(): void {
+  confirmOpen.value = false
+  void doDelete()
+}
+
 function fmt(iso: string | null): string {
   if (!iso) return 'Never'
   return new Date(iso).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'medium' })
 }
 
-const summary = computed(() => `${stats.value?.range_clicks ?? 0} clicks in last ${days.value} days`)
+const summary = computed(
+  () => `${stats.value?.range_clicks ?? 0} clicks in last ${days.value} days`,
+)
 
 onMounted(load)
 </script>
@@ -114,7 +121,9 @@ onMounted(load)
         </div>
         <div class="detail-actions">
           <CopyButton :text="item.short_url" variant="primary" />
-          <a class="btn btn-secondary" :href="item.short_url" target="_blank" rel="noopener">Open</a>
+          <a class="btn btn-secondary" :href="item.short_url" target="_blank" rel="noopener"
+            >Open</a
+          >
         </div>
       </header>
 
@@ -122,13 +131,34 @@ onMounted(load)
         <section class="card">
           <h2 class="card-title">Details</h2>
           <dl class="dl">
-            <div class="dl-row"><dt>Short URL</dt><dd class="mono">{{ item.short_url }}</dd></div>
-            <div class="dl-row"><dt>Original URL</dt><dd class="wrap">{{ item.target_url }}</dd></div>
-            <div class="dl-row"><dt>Created</dt><dd>{{ fmt(item.created_at) }}</dd></div>
-            <div class="dl-row"><dt>Last accessed</dt><dd>{{ fmt(item.last_accessed_at) }}</dd></div>
-            <div class="dl-row"><dt>Clicks</dt><dd>{{ item.clicks }}</dd></div>
-            <div class="dl-row"><dt>Expiration</dt><dd>{{ item.expires_at ? fmt(item.expires_at) : 'No expiration' }}</dd></div>
-            <div class="dl-row"><dt>Status</dt><dd><StatusBadge :status="item.status" /></dd></div>
+            <div class="dl-row">
+              <dt>Short URL</dt>
+              <dd class="mono">{{ item.short_url }}</dd>
+            </div>
+            <div class="dl-row">
+              <dt>Original URL</dt>
+              <dd class="wrap">{{ item.target_url }}</dd>
+            </div>
+            <div class="dl-row">
+              <dt>Created</dt>
+              <dd>{{ fmt(item.created_at) }}</dd>
+            </div>
+            <div class="dl-row">
+              <dt>Last accessed</dt>
+              <dd>{{ fmt(item.last_accessed_at) }}</dd>
+            </div>
+            <div class="dl-row">
+              <dt>Clicks</dt>
+              <dd>{{ item.clicks }}</dd>
+            </div>
+            <div class="dl-row">
+              <dt>Expiration</dt>
+              <dd>{{ item.expires_at ? fmt(item.expires_at) : 'No expiration' }}</dd>
+            </div>
+            <div class="dl-row">
+              <dt>Status</dt>
+              <dd><StatusBadge :status="item.status" /></dd>
+            </div>
           </dl>
         </section>
 
@@ -140,14 +170,28 @@ onMounted(load)
           <p class="summary">{{ summary }}</p>
           <template v-if="stats">
             <ClicksChart :series="stats.series" />
-            <button type="button" class="btn btn-ghost table-toggle" :aria-expanded="showTable" @click="showTable = !showTable">
+            <button
+              type="button"
+              class="btn btn-ghost table-toggle"
+              :aria-expanded="showTable"
+              @click="showTable = !showTable"
+            >
               {{ showTable ? 'Hide data table' : 'View data table' }}
             </button>
             <div v-if="showTable" class="table-wrap">
               <table class="data-table">
-                <caption class="sr-only">Clicks per day, last {{ days }} days</caption>
+                <caption class="sr-only">
+                  Clicks per day, last
+                  {{
+                    days
+                  }}
+                  days
+                </caption>
                 <thead>
-                  <tr><th scope="col">Date</th><th scope="col" class="num">Clicks</th></tr>
+                  <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col" class="num">Clicks</th>
+                  </tr>
                 </thead>
                 <tbody>
                   <tr v-for="p in stats.series" :key="p.date">
@@ -179,7 +223,7 @@ onMounted(load)
       confirm-label="Delete"
       danger
       @cancel="confirmOpen = false"
-      @confirm="confirmOpen = false; doDelete()"
+      @confirm="onConfirmDelete"
     />
   </div>
 </template>

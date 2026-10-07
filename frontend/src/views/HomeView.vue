@@ -41,10 +41,12 @@ onMounted(() => {
     <section class="hero" :class="{ 'hero--full': !isLoggedIn }" aria-labelledby="hero-title">
       <div class="hero-copy">
         <p class="hero-eyebrow">ShortINK — URL shortener</p>
-        <h1 id="hero-title" class="hero-title" tabindex="-1">Shorten long URLs. Track every click.</h1>
+        <h1 id="hero-title" class="hero-title" tabindex="-1">
+          Shorten long URLs. Track every click.
+        </h1>
         <p class="hero-sub">
-          Create short links in seconds and manage them all in one place — click counts,
-          expiry dates, and one-click copy.
+          Create short links in seconds and manage them all in one place — click counts, expiry
+          dates, and one-click copy.
         </p>
         <ul class="hero-points">
           <li>No account needed to shorten</li>

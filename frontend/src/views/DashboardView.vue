@@ -32,10 +32,7 @@ async function load(): Promise<void> {
   loading.value = true
   error.value = null
   try {
-    const [ov, list] = await Promise.all([
-      urlsApi.overview(),
-      urlsApi.list({ limit: 10 }),
-    ])
+    const [ov, list] = await Promise.all([urlsApi.overview(), urlsApi.list({ limit: 10 })])
     overview.value = ov
     items.value = list.items
     nextCursor.value = list.next_cursor
@@ -98,6 +95,16 @@ async function confirmDelete(): Promise<void> {
   } finally {
     pendingDelete.value = null
   }
+}
+
+function onCancelDelete(): void {
+  dialogOpen.value = false
+  pendingDelete.value = null
+}
+
+function onConfirmDelete(): void {
+  dialogOpen.value = false
+  void confirmDelete()
 }
 
 onMounted(load)
@@ -168,8 +175,8 @@ function onCreated(url: UrlItem): void {
       message="This can't be undone."
       confirm-label="Delete"
       danger
-      @cancel="dialogOpen = false; pendingDelete = null"
-      @confirm="dialogOpen = false; confirmDelete()"
+      @cancel="onCancelDelete"
+      @confirm="onConfirmDelete"
     />
   </div>
 </template>

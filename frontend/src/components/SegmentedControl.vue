@@ -43,7 +43,9 @@ const emit = defineEmits<{ 'update:modelValue': [value: string] }>()
   font-weight: var(--weight-medium);
   color: var(--color-muted);
   cursor: pointer;
-  transition: background var(--duration-fast) var(--ease), color var(--duration-fast) var(--ease);
+  transition:
+    background var(--duration-fast) var(--ease),
+    color var(--duration-fast) var(--ease);
 }
 .segment.active {
   background: var(--color-surface);

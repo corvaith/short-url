@@ -16,7 +16,19 @@ withDefaults(
     spellcheck?: boolean
     disabled?: boolean
   }>(),
-  { type: 'text', modelValue: '', placeholder: '', error: '', hint: '', required: false, autocomplete: 'off', inputmode: undefined, autocapitalize: undefined, spellcheck: undefined, disabled: false },
+  {
+    type: 'text',
+    modelValue: '',
+    placeholder: '',
+    error: '',
+    hint: '',
+    required: false,
+    autocomplete: 'off',
+    inputmode: undefined,
+    autocapitalize: undefined,
+    spellcheck: undefined,
+    disabled: false,
+  },
 )
 
 const emit = defineEmits<{ 'update:modelValue': [value: string] }>()

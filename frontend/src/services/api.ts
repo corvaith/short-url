@@ -65,13 +65,16 @@ export async function api<T>(path: string, opts: RequestOptions = {}): Promise<T
   }
 
   if (!res.ok) {
-    const shape = data as { error?: { code?: string; message?: string; fields?: Record<string, string> } } | null
+    const shape = data as {
+      error?: { code?: string; message?: string; fields?: Record<string, string> }
+    } | null
     const code = shape?.error?.code ?? `http_${res.status}`
     const message = shape?.error?.message ?? `Request failed with status ${res.status}`
     if (res.status === 401 && !AUTH_PATHS.includes(path) && unauthorizedHandler) {
       unauthorizedHandler()
     }
-    const retryAfter = res.status === 429 ? Number(res.headers.get('Retry-After') ?? '0') || 0 : undefined
+    const retryAfter =
+      res.status === 429 ? Number(res.headers.get('Retry-After') ?? '0') || 0 : undefined
     throw new ApiError(res.status, code, message, shape?.error?.fields, retryAfter)
   }
 
@@ -83,7 +86,8 @@ export function describeError(e: unknown): string {
   if (e instanceof ApiError) {
     if (e.code === 'network_error') return e.message
     if (e.status === 429) return `Too many requests. Try again in ${e.retryAfter ?? 5} seconds.`
-    if (e.code === 'rate_limited') return 'Too many requests. Please slow down and try again shortly.'
+    if (e.code === 'rate_limited')
+      return 'Too many requests. Please slow down and try again shortly.'
     return e.message
   }
   if (e instanceof Error && e.message) return e.message

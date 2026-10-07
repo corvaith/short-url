@@ -16,11 +16,27 @@ const icons: Record<ToastKind, string> = {
   <div class="toast-host" :class="{ mobile: isMobile }" aria-live="polite" aria-atomic="false">
     <TransitionGroup name="toast">
       <div v-for="t in toasts" :key="t.id" class="toast" :class="`toast-${t.kind}`" role="status">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
           <path :d="icons[t.kind]" />
         </svg>
         <span class="toast-msg">{{ t.message }}</span>
-        <button type="button" class="toast-close" aria-label="Dismiss notification" @click="dismiss(t.id)">×</button>
+        <button
+          type="button"
+          class="toast-close"
+          aria-label="Dismiss notification"
+          @click="dismiss(t.id)"
+        >
+          ×
+        </button>
       </div>
     </TransitionGroup>
   </div>
@@ -87,7 +103,9 @@ const icons: Record<ToastKind, string> = {
 }
 .toast-enter-active,
 .toast-leave-active {
-  transition: opacity var(--duration-base) var(--ease), transform var(--duration-base) var(--ease);
+  transition:
+    opacity var(--duration-base) var(--ease),
+    transform var(--duration-base) var(--ease);
 }
 .toast-enter-from,
 .toast-leave-to {

@@ -13,7 +13,17 @@ withDefaults(
     spellcheck?: boolean
     ariaLabel?: string
   }>(),
-  { modelValue: '', type: 'text', placeholder: '', invalid: false, disabled: false, autocomplete: 'off', inputmode: undefined, spellcheck: undefined, ariaLabel: undefined },
+  {
+    modelValue: '',
+    type: 'text',
+    placeholder: '',
+    invalid: false,
+    disabled: false,
+    autocomplete: 'off',
+    inputmode: undefined,
+    spellcheck: undefined,
+    ariaLabel: undefined,
+  },
 )
 
 const emit = defineEmits<{ 'update:modelValue': [value: string] }>()

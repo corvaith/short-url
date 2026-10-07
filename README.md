@@ -5,13 +5,13 @@ A minimal, mobile-first URL shortener. Go backend, Vue 3 frontend, Postgres
 
 ## Stack
 
-| Layer | Choice |
-|---|---|
-| Backend | Go 1.23, chi router, pgx/v5 (pool) |
-| Database | PostgreSQL 17 (Supabase), golang-migrate |
-| Auth | Argon2id password hashing, opaque cookie sessions |
-| Frontend | Vue 3 + TypeScript + Vite, lazy-loaded routes |
-| Tests | Go unit + integration (real Postgres) |
+| Layer    | Choice                                            |
+| -------- | ------------------------------------------------- |
+| Backend  | Go 1.23, chi router, pgx/v5 (pool)                |
+| Database | PostgreSQL 17 (Supabase), golang-migrate          |
+| Auth     | Argon2id password hashing, opaque cookie sessions |
+| Frontend | Vue 3 + TypeScript + Vite, lazy-loaded routes     |
+| Tests    | Go unit + integration (real Postgres)             |
 
 ## Layout
 
@@ -84,10 +84,23 @@ DATABASE_URL=... make migrate-down    # roll back one
 - All SQL lives in `internal/repository`, fully parameterized.
 - Security headers (CSP, X-Content-Type-Options, Referrer-Policy, frame
   options) applied to every response; redirects get `Cache-Control: private,
-  max-age=60`.
+max-age=60`.
 - Sessions are opaque tokens (256-bit random), stored hashed, HttpOnly +
   SameSite=Lax (+ Secure in production).
 - Redirect path: in-memory cache (TTL+LRU) → single query on miss → async
   click flush. Zero synchronous DB writes per redirect request.
 - Rate limiting: per-IP token buckets, stricter buckets for auth endpoints
   plus a failure counter on login/register.
+
+## Development
+
+- **Format (frontend & docs):** `npm install` at the repo root, then
+  `npm run format` / `npm run format:check` (Prettier, config in
+  `.prettierrc.json`).
+- **CI:** GitHub Actions (`.github/workflows/ci.yml`) runs gofmt, `go vet`,
+  unit + integration tests (with a Postgres service), and the frontend
+  typecheck + build on every push/PR.
+
+## License
+
+[ISC](LICENSE)

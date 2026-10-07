@@ -18,7 +18,9 @@ defineExpose({ focusSelf: () => cardRef.value?.focus() })
     <div class="result-actions">
       <CopyButton :text="url.short_url" variant="primary" />
       <a class="btn btn-secondary" :href="url.short_url" target="_blank" rel="noopener">Open</a>
-      <button type="button" class="btn btn-ghost" @click="emit('create-another')">Create another</button>
+      <button type="button" class="btn btn-ghost" @click="emit('create-another')">
+        Create another
+      </button>
     </div>
   </div>
 </template>

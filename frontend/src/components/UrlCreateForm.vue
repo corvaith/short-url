@@ -38,7 +38,12 @@ function normalizeTarget(raw: string): string {
 
 function computeExpiresAt(): string | undefined {
   const now = Date.now()
-  const hours: Record<string, number | undefined> = { '1h': 1, '1d': 24, '7d': 24 * 7, '30d': 24 * 30 }
+  const hours: Record<string, number | undefined> = {
+    '1h': 1,
+    '1d': 24,
+    '7d': 24 * 7,
+    '30d': 24 * 30,
+  }
   const h = hours[expiration.value]
   if (h !== undefined) return new Date(now + h * 3600_000).toISOString()
   if (expiration.value === 'custom') {
@@ -121,9 +126,24 @@ defineExpose({ created })
 
     <p v-if="fieldError" id="create-error" class="field-error" role="alert">{{ fieldError }}</p>
 
-    <button type="button" class="options-toggle" :aria-expanded="showOptions" @click="showOptions = !showOptions">
+    <button
+      type="button"
+      class="options-toggle"
+      :aria-expanded="showOptions"
+      @click="showOptions = !showOptions"
+    >
       Options
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" :style="{ transform: showOptions ? 'rotate(180deg)' : 'none' }" aria-hidden="true">
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        :style="{ transform: showOptions ? 'rotate(180deg)' : 'none' }"
+        aria-hidden="true"
+      >
         <path d="M6 9l6 6 6-6" />
       </svg>
     </button>
@@ -132,10 +152,24 @@ defineExpose({ created })
       <div class="option-field">
         <label class="field-label" for="alias">Custom alias</label>
         <template v-if="isLoggedIn">
-          <input id="alias" v-model="alias" class="input" type="text" autocomplete="off" spellcheck="false" placeholder="my-link" />
+          <input
+            id="alias"
+            v-model="alias"
+            class="input"
+            type="text"
+            autocomplete="off"
+            spellcheck="false"
+            placeholder="my-link"
+          />
         </template>
         <template v-else>
-          <input class="input" type="text" disabled aria-disabled="true" placeholder="Log in to use a custom alias" />
+          <input
+            class="input"
+            type="text"
+            disabled
+            aria-disabled="true"
+            placeholder="Log in to use a custom alias"
+          />
           <p class="option-hint">
             <RouterLink to="/login">Log in to use a custom alias</RouterLink>
           </p>
@@ -144,10 +178,20 @@ defineExpose({ created })
       <div class="option-field">
         <label class="field-label" for="expiration">Expiration</label>
         <select id="expiration" v-model="expiration" class="select">
-          <option v-for="opt in expirationOptions" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
+          <option v-for="opt in expirationOptions" :key="opt.value" :value="opt.value">
+            {{ opt.label }}
+          </option>
         </select>
-        <label v-if="expiration === 'custom'" class="field-label" for="custom-date">Expiry date &amp; time</label>
-        <input v-if="expiration === 'custom'" id="custom-date" v-model="customDate" class="input" type="datetime-local" />
+        <label v-if="expiration === 'custom'" class="field-label" for="custom-date"
+          >Expiry date &amp; time</label
+        >
+        <input
+          v-if="expiration === 'custom'"
+          id="custom-date"
+          v-model="customDate"
+          class="input"
+          type="datetime-local"
+        />
       </div>
     </div>
 
@@ -200,7 +244,7 @@ defineExpose({ created })
 }
 .options-toggle:hover {
   color: var(--color-text);
-  background: #F5F5F5;
+  background: #f5f5f5;
 }
 .options {
   display: grid;

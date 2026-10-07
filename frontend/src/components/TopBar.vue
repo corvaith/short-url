@@ -26,7 +26,9 @@ async function onLogout(): Promise<void> {
       <nav v-if="showInlineNav" class="topbar-nav" aria-label="Main">
         <RouterLink to="/dashboard" class="topbar-link">Links</RouterLink>
         <RouterLink to="/settings" class="topbar-link">Settings</RouterLink>
-        <button type="button" class="btn btn-outline-light btn-sm" @click="onLogout">Log out</button>
+        <button type="button" class="btn btn-outline-light btn-sm" @click="onLogout">
+          Log out
+        </button>
       </nav>
       <nav v-else class="topbar-nav" aria-label="Main">
         <template v-if="!isLoggedIn">
