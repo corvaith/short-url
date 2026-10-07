@@ -38,7 +38,7 @@ onMounted(() => {
 
 <template>
   <div class="home">
-    <section class="hero" aria-labelledby="hero-title">
+    <section class="hero" :class="{ 'hero--full': !isLoggedIn }" aria-labelledby="hero-title">
       <div class="hero-copy">
         <p class="hero-eyebrow">ShortINK — URL shortener</p>
         <h1 id="hero-title" class="hero-title" tabindex="-1">Shorten long URLs. Track every click.</h1>
@@ -83,6 +83,11 @@ onMounted(() => {
   padding: var(--space-6) 0 var(--space-4);
   align-items: start;
 }
+.hero--full {
+  padding-bottom: var(--space-8);
+  align-content: center;
+  min-height: min(78dvh, 720px);
+}
 .hero-copy {
   text-align: center;
 }
@@ -123,7 +128,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  justify-content: center;
+  justify-content: flex-start;
 }
 .hero-points li::before {
   content: '';
