@@ -59,7 +59,7 @@ func CSRF(baseURL string, allowed []string) func(http.Handler) http.Handler {
 			switch r.Method {
 			case http.MethodPost, http.MethodPatch, http.MethodPut, http.MethodDelete:
 				origin := r.Header.Get("Origin")
-				if origin != "" {
+				if origin != "" && !sameOrigin(origin, r) {
 					if _, ok := allowedSet[strings.TrimRight(origin, "/")]; !ok {
 						w.Header().Set("Content-Type", "application/json; charset=utf-8")
 						w.WriteHeader(http.StatusForbidden)

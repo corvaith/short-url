@@ -49,6 +49,8 @@ function computeExpiresAt(): string | undefined {
   return undefined
 }
 
+const emit = defineEmits<{ created: [url: UrlItem] }>()
+
 function resetForm(): void {
   targetUrl.value = ''
   alias.value = ''
@@ -66,13 +68,15 @@ async function submit(): Promise<void> {
   }
   submitting.value = true
   try {
-    created.value = await urlsApi.create({
+    const result = await urlsApi.create({
       target_url: target,
       alias: alias.value.trim() || undefined,
       expires_at: computeExpiresAt(),
     })
+    created.value = result
     resetForm()
     showOptions.value = false
+    emit('created', result)
   } catch (e) {
     if (e instanceof ApiError && e.fields && Object.keys(e.fields).length > 0) {
       fieldError.value = Object.values(e.fields).join(' ')
@@ -172,6 +176,10 @@ defineExpose({ created })
   }
   .row-btn {
     white-space: nowrap;
+  }
+  /* block button must not steal width from the input in a flex row */
+  .row-btn.btn-block {
+    width: auto;
   }
 }
 .options-toggle {

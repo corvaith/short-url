@@ -12,9 +12,12 @@ import BaseButton from '../components/BaseButton.vue'
 import EmptyState from '../components/EmptyState.vue'
 import ErrorState from '../components/ErrorState.vue'
 import ConfirmDialog from '../components/ConfirmDialog.vue'
+import UrlCreateForm from '../components/UrlCreateForm.vue'
 
 usePageMeta('Dashboard')
 const toast = useToast()
+
+const showCreate = ref(false)
 
 const overview = ref<Overview | null>(null)
 const items = ref<UrlItem[]>([])
@@ -98,15 +101,32 @@ async function confirmDelete(): Promise<void> {
 }
 
 onMounted(load)
+
+function onCreated(url: UrlItem): void {
+  items.value = [url, ...items.value]
+  void urlsApi.overview().then((ov) => (overview.value = ov))
+}
 </script>
 
 <template>
   <div>
     <PageHeader title="Dashboard" subtitle="All your short links in one place.">
       <template #actions>
-        <RouterLink to="/" class="btn btn-primary" style="display:inline-flex;align-items:center;">New link</RouterLink>
+        <button
+          type="button"
+          class="btn btn-primary new-link-btn"
+          :aria-expanded="showCreate"
+          @click="showCreate = !showCreate"
+        >
+          {{ showCreate ? 'Close' : 'New link' }}
+        </button>
       </template>
     </PageHeader>
+
+    <section v-if="showCreate" class="create-panel card" aria-label="Create a short link">
+      <h2 class="create-title">Create a short link</h2>
+      <UrlCreateForm @created="onCreated" />
+    </section>
 
     <div v-if="loading" class="stats-grid" aria-busy="true">
       <div v-for="n in 3" :key="n" class="skeleton card skel-stat" />
@@ -182,5 +202,22 @@ onMounted(load)
   display: flex;
   justify-content: center;
   margin-top: var(--space-6);
+}
+.create-panel {
+  margin-bottom: var(--space-6);
+}
+.create-title {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--space-4);
+}
+.new-link-btn {
+  white-space: nowrap;
+}
+/* Desktop: stats row stays compact, list gets breathing room. */
+@media (min-width: 900px) {
+  .stats-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 </style>

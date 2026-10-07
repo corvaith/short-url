@@ -104,7 +104,12 @@ th.num {
   color: var(--color-primary);
   font-weight: var(--weight-semibold);
   text-decoration: none;
-  overflow-wrap: anywhere;
+  display: inline-block;
+  max-width: 34ch;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
 }
 .short:hover {
   text-decoration: underline;
@@ -113,7 +118,10 @@ th.num {
   display: block;
   color: var(--color-muted);
   font-size: var(--text-xs);
-  max-width: 34ch;
+  max-width: 44ch;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   margin-top: 2px;
 }
 .cell-actions {

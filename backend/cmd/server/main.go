@@ -64,7 +64,7 @@ func main() {
 		log.Error("db pool error", "err", err)
 		os.Exit(1)
 	}
-	pingCtx, pingCancel := context.WithTimeout(ctx, 10*time.Second)
+	pingCtx, pingCancel := context.WithTimeout(ctx, 45*time.Second)
 	if err := pool.Ping(pingCtx); err != nil {
 		log.Error("database unreachable", "err", err)
 		os.Exit(1)
