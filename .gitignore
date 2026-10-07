@@ -1,0 +1,5 @@
+.env
+bin/
+frontend/node_modules/
+frontend/dist/
+*.log
