@@ -31,6 +31,9 @@ var (
 	ErrGone               = errors.New("gone")
 	ErrRateLimited        = errors.New("rate_limited")
 	ErrInternal           = errors.New("internal_error")
+	ErrOAuthProvider      = errors.New("oauth_provider_disabled")
+	ErrOAuthState         = errors.New("oauth_state_invalid")
+	ErrOAuthExchange      = errors.New("oauth_exchange_failed")
 )
 
 // FieldError carries a per-field validation message.

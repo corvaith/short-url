@@ -3,7 +3,8 @@ html{-webkit-text-size-adjust:100%}
 body{margin:0;font-family:var(--font-sans);font-size:var(--text-base);line-height:var(--leading-normal);color:var(--color-text);background:var(--color-background)}
 #app{min-height:100dvh;display:flex;flex-direction:column}
 img,svg{display:block;max-width:100%}
-a{color:var(--color-primary)}
+a{color:var(--color-link);text-decoration:underline;text-underline-offset:2px}
+a:hover{color:var(--color-link-hover)}
 h1,h2,h3{line-height:var(--leading-tight);margin:0}
 p{margin:0}
 h1[tabindex="-1"]:focus{outline:none}h1[tabindex="-1"]:focus-visible{box-shadow:none}
@@ -14,9 +15,9 @@ h1[tabindex="-1"]:focus{outline:none}h1[tabindex="-1"]:focus-visible{box-shadow:
 .skip-link:focus{top:var(--space-2)}
 .skeleton{background:linear-gradient(90deg,var(--color-surface-muted) 25%,#e6e9ee 50%,var(--color-surface-muted) 75%);background-size:200% 100%;animation:shimmer 1.2s linear infinite;border-radius:var(--radius-sm)}
 @keyframes shimmer{from{background-position:200% 0}to{background-position:-200% 0}}
-.card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-6);box-shadow:var(--shadow-sm)}
+.card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-4);box-shadow:var(--shadow-sm)}
 .field-label{display:block;font-size:var(--text-sm);font-weight:var(--weight-medium);margin-bottom:var(--space-2)}
-.input,.select{width:100%;min-height:var(--tap-min);padding:0 var(--space-3);border:1px solid var(--color-border-strong);border-radius:var(--radius-md);background:var(--color-surface);color:var(--color-text);font:inherit;font-size:var(--text-base)}
+.input,.select{width:100%;min-height:var(--tap-min);padding:0 var(--space-2);border:1px solid var(--color-border);border-radius:var(--radius-md);background:var(--color-surface);color:var(--color-text);font:inherit;font-size:var(--text-base)}
 .input::placeholder{color:var(--color-muted)}
 .input:focus-visible,.select:focus-visible{box-shadow:var(--ring);border-color:var(--color-focus)}
 .input.invalid{border-color:var(--color-danger)}
@@ -24,15 +25,16 @@ h1[tabindex="-1"]:focus{outline:none}h1[tabindex="-1"]:focus-visible{box-shadow:
 .field-error{color:var(--color-danger);font-size:var(--text-sm);margin-top:var(--space-1)}
 .mono{font-family:var(--font-mono)}
 .clamp-2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);min-height:var(--tap-min);padding:0 var(--space-4);border-radius:var(--radius-md);font:inherit;font-weight:var(--weight-semibold);font-size:var(--text-sm);border:1px solid transparent;cursor:pointer;text-decoration:none;transition:background var(--duration-fast) var(--ease),border-color var(--duration-fast) var(--ease),color var(--duration-fast) var(--ease)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);min-height:var(--tap-min);padding:0 var(--space-4);border-radius:var(--radius-sm);font:inherit;font-weight:var(--weight-semibold);font-size:13px;border:1px solid transparent;cursor:pointer;text-decoration:none;transition:background var(--duration-fast) var(--ease),border-color var(--duration-fast) var(--ease),color var(--duration-fast) var(--ease)}
 .btn:disabled{opacity:.6;cursor:not-allowed}
+.btn:active:not(:disabled){box-shadow:rgba(0,0,0,.125) 0 3px 5px inset}
 .btn-sm{min-height:36px;padding:0 var(--space-3);font-size:var(--text-xs)}
 .btn-primary{background:var(--color-primary);color:var(--color-primary-contrast)}
 .btn-primary:hover:not(:disabled){background:var(--color-primary-hover)}
 .btn-secondary{background:var(--color-surface);color:var(--color-text);border-color:var(--color-border-strong)}
-.btn-secondary:hover:not(:disabled){background:var(--color-surface-muted)}
-.btn-ghost{background:transparent;color:var(--color-primary)}
-.btn-ghost:hover:not(:disabled){background:var(--color-primary-soft)}
+.btn-secondary:hover:not(:disabled){background:#E8E8E8;border-color:#ADADAD}
+.btn-ghost{background:transparent;color:var(--color-link)}
+.btn-ghost:hover:not(:disabled){background:var(--color-surface-muted)}
 .btn-danger{background:var(--color-danger);color:#fff}
 .btn-danger:hover:not(:disabled){filter:brightness(.92)}
 .btn-block{width:100%}

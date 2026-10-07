@@ -77,6 +77,7 @@ func main() {
 	urlsRepo := repository.NewURLs(pool)
 
 	authSvc := service.NewAuthService(cfg, usersRepo, sessionsRepo, log)
+	oauthSvc := service.NewOAuthService(cfg, usersRepo, authSvc, log)
 	urlSvc := service.NewURLService(cfg, urlsRepo, log)
 	statsSvc := service.NewStatsService(urlsRepo)
 	limiter := middleware.NewLimiter()
@@ -87,7 +88,7 @@ func main() {
 		defer cancel()
 		return pool.Ping(pctx) == nil
 	}
-	api := handler.NewAPI(cfg, urlSvc, authSvc, statsSvc, limiter, trusted, ready)
+	api := handler.NewAPI(cfg, urlSvc, authSvc, oauthSvc, statsSvc, limiter, trusted, ready)
 
 	// background workers
 	urlSvc.StartClickFlusher(ctx)

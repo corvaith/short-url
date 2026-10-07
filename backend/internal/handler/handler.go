@@ -10,6 +10,7 @@ import (
 	"html"
 	"net"
 	"net/http"
+	"net/url"
 	"strconv"
 	"strings"
 	"time"
@@ -29,6 +30,7 @@ type API struct {
 	cfg            *config.Config
 	urls           *service.URLService
 	auth           *service.AuthService
+	oauth          *service.OAuthService
 	stats          *service.StatsService
 	lim            *middleware.Limiter
 	trustedProxies []*net.IPNet
@@ -36,8 +38,74 @@ type API struct {
 }
 
 // NewAPI builds the handler collection.
-func NewAPI(cfg *config.Config, urls *service.URLService, auth *service.AuthService, stats *service.StatsService, lim *middleware.Limiter, trustedProxies []*net.IPNet, ready func(ctx context.Context) bool) *API {
-	return &API{cfg: cfg, urls: urls, auth: auth, stats: stats, lim: lim, trustedProxies: trustedProxies, ready: ready}
+func NewAPI(cfg *config.Config, urls *service.URLService, auth *service.AuthService, oauth *service.OAuthService, stats *service.StatsService, lim *middleware.Limiter, trustedProxies []*net.IPNet, ready func(ctx context.Context) bool) *API {
+	return &API{cfg: cfg, urls: urls, auth: auth, oauth: oauth, stats: stats, lim: lim, trustedProxies: trustedProxies, ready: ready}
+}
+
+// ---- OAuth (GitHub / Discord, option B alongside password auth) ----
+
+var oauthProviders = map[string]bool{"github": true, "discord": true}
+
+// HandleOAuthStart redirects the browser to the provider consent screen.
+// GET /api/v1/auth/oauth/{provider}/start?next=/dashboard
+func (a *API) HandleOAuthStart(w http.ResponseWriter, r *http.Request) {
+	provider := chi.URLParam(r, "provider")
+	if !oauthProviders[provider] || a.oauth == nil || a.oauth.ClientID(provider) == "" {
+		a.serveErrorPage(w, r, http.StatusNotFound)
+		return
+	}
+	next := r.URL.Query().Get("next")
+	state := a.oauth.NewState(provider, next)
+	target, err := a.oauth.AuthCodeURL(provider, state)
+	if err != nil {
+		a.serveErrorPage(w, r, http.StatusNotFound)
+		return
+	}
+	http.Redirect(w, r, target, http.StatusFound)
+}
+
+// HandleOAuthCallback exchanges the code, signs the user in, and redirects to
+// the SPA. Errors land on /login?error=... for user-facing messaging.
+// GET /api/v1/auth/oauth/{provider}/callback?code=..&state=..
+func (a *API) HandleOAuthCallback(w http.ResponseWriter, r *http.Request) {
+	provider := chi.URLParam(r, "provider")
+	fail := func(code string) {
+		http.Redirect(w, r, "/login?error="+url.QueryEscape(code), http.StatusFound)
+	}
+	if !oauthProviders[provider] || a.oauth == nil {
+		fail("oauth_unavailable")
+		return
+	}
+	if e := r.URL.Query().Get("error"); e != "" {
+		fail("oauth_denied")
+		return
+	}
+	code := r.URL.Query().Get("code")
+	state := r.URL.Query().Get("state")
+	if code == "" || state == "" {
+		fail("oauth_invalid")
+		return
+	}
+	next, ok := a.oauth.ConsumeState(provider, state)
+	if !ok {
+		fail("oauth_state")
+		return
+	}
+	u, token, err := a.oauth.LoginWithCode(r.Context(), provider, code)
+	if err != nil {
+		if errors.Is(err, service.ErrOAuthExchange) {
+			fail("oauth_exchange")
+			return
+		}
+		fail("oauth_error")
+		return
+	}
+	a.setSessionCookie(w, token, int(a.cfg.SessionTTL.Seconds()))
+	if next == "" {
+		next = "/dashboard"
+	}
+	_ = u
+	http.Redirect(w, r, next, http.StatusFound)
 }
 
 // ---- error envelope ----

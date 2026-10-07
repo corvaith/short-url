@@ -42,6 +42,8 @@ func New(cfg *config.Config, api *handler.API, log *slog.Logger, trustedProxies 
 		ar.Get("/urls/{id}/stats", api.HandleStats)
 		ar.Get("/stats/overview", api.HandleOverview)
 		ar.Post("/auth/register", api.HandleRegister)
+		ar.Get("/auth/oauth/{provider}/start", api.HandleOAuthStart)
+		ar.Get("/auth/oauth/{provider}/callback", api.HandleOAuthCallback)
 		ar.Post("/auth/login", api.HandleLogin)
 		ar.Post("/auth/logout", api.HandleLogout)
 		ar.Get("/auth/me", api.HandleMe)

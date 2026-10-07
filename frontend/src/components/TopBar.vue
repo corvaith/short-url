@@ -26,7 +26,7 @@ async function onLogout(): Promise<void> {
       <nav v-if="showInlineNav" class="topbar-nav" aria-label="Main">
         <RouterLink to="/dashboard" class="topbar-link">Links</RouterLink>
         <RouterLink to="/settings" class="topbar-link">Settings</RouterLink>
-        <button type="button" class="btn btn-ghost btn-sm" @click="onLogout">Log out</button>
+        <button type="button" class="btn btn-outline-light btn-sm" @click="onLogout">Log out</button>
       </nav>
       <nav v-else class="topbar-nav" aria-label="Main">
         <template v-if="!isLoggedIn">
@@ -44,8 +44,9 @@ async function onLogout(): Promise<void> {
   top: 0;
   z-index: 100;
   height: var(--topbar-h);
-  background: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
+  background: var(--header-grad);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  --header-text: #ffffff;
 }
 .topbar-inner {
   height: 100%;
@@ -58,15 +59,18 @@ async function onLogout(): Promise<void> {
   color: inherit;
   display: inline-flex;
 }
+.topbar-brand:hover {
+  text-decoration: none;
+}
 .topbar-nav {
   display: flex;
   align-items: center;
   gap: var(--space-4);
 }
 .topbar-link {
-  color: var(--color-muted);
+  color: rgba(255, 255, 255, 0.92);
   text-decoration: none;
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-regular);
   font-size: var(--text-sm);
   min-height: var(--tap-min);
   display: inline-flex;
@@ -74,6 +78,16 @@ async function onLogout(): Promise<void> {
 }
 .topbar-link:hover,
 .topbar-link.router-link-active {
-  color: var(--color-text);
+  color: #fff;
+  text-decoration: underline;
+}
+.btn-outline-light {
+  background: transparent;
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.55);
+}
+.btn-outline-light:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #fff;
 }
 </style>

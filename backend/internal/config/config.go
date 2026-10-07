@@ -39,6 +39,12 @@ type Config struct {
 	RateLoginFail  Rate // per (IP+email) per 15 min
 	RateRegisterIP Rate // per IP, per hour
 	RateAPIGeneral Rate // other endpoints, per IP/user
+
+	// OAuth providers (option B: password auth stays; empty ID disables)
+	GitHubClientID      string
+	GitHubClientSecret  string
+	DiscordClientID     string
+	DiscordClientSecret string
 }
 
 // Rate bundles a requests-per-minute limit with a burst allowance.
@@ -160,6 +166,10 @@ func Load() (*Config, error) {
 	}
 	c.SessionTTL = time.Duration(ttlH) * time.Hour
 	c.LogLevel = envStr("LOG_LEVEL", "info")
+	c.GitHubClientID = envStr("GITHUB_CLIENT_ID", "")
+	c.GitHubClientSecret = envStr("GITHUB_CLIENT_SECRET", "")
+	c.DiscordClientID = envStr("DISCORD_CLIENT_ID", "")
+	c.DiscordClientSecret = envStr("DISCORD_CLIENT_SECRET", "")
 	dbConns, err := envInt("DB_MAX_CONNS", 10)
 	if err != nil {
 		return nil, err

@@ -40,7 +40,7 @@ onMounted(() => {
   <div class="home">
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero-copy">
-        <p class="hero-eyebrow">URL shortener</p>
+        <p class="hero-eyebrow">ShortINK — URL shortener</p>
         <h1 id="hero-title" class="hero-title" tabindex="-1">Shorten long URLs. Track every click.</h1>
         <p class="hero-sub">
           Create short links in seconds and manage them all in one place — click counts,
@@ -112,9 +112,10 @@ onMounted(() => {
   list-style: none;
   padding: 0;
   margin: var(--space-5) 0 0;
-  display: grid;
+  display: inline-grid;
   gap: var(--space-2);
   justify-content: center;
+  text-align: left;
   font-size: var(--text-sm);
   color: var(--color-muted);
 }

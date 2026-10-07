@@ -27,7 +27,7 @@ router.beforeEach(async (to) => {
 
 // After navigation, move focus to the page h1 and update the document title.
 router.afterEach((to) => {
-  document.title = to.meta.title ? `${to.meta.title} — Short URL` : 'Short URL'
+  document.title = to.meta.title ? `${to.meta.title} — ShortINK` : 'ShortINK'
   void nextTick(() => {
     const h1 = document.querySelector<HTMLElement>('h1[tabindex="-1"]')
     h1?.focus({ preventScroll: false })

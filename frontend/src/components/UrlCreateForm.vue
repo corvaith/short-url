@@ -188,24 +188,26 @@ defineExpose({ created })
   align-items: center;
   gap: var(--space-1);
   min-height: var(--tap-min);
-  border: none;
-  background: none;
+  border: 1px dashed var(--color-border-strong);
+  background: var(--color-surface);
   font: inherit;
   font-size: var(--text-sm);
   font-weight: var(--weight-medium);
   color: var(--color-muted);
   cursor: pointer;
-  padding: 0 var(--space-2);
+  padding: 0 var(--space-3);
   border-radius: var(--radius-sm);
 }
 .options-toggle:hover {
   color: var(--color-text);
+  background: #F5F5F5;
 }
 .options {
   display: grid;
   gap: var(--space-4);
   background: var(--color-surface-muted);
-  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
   padding: var(--space-4);
 }
 @media (min-width: 768px) {

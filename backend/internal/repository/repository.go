@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/jackc/pgx/v5"
@@ -79,6 +80,67 @@ func (u *Users) UpdatePassword(ctx context.Context, id, passwordHash string) err
 		return ErrNotFound
 	}
 	return nil
+}
+
+// OAuthIdentity links an external provider account to a local user.
+type OAuthIdentity struct {
+	Provider    string
+	ProviderUID string
+	UserID      string
+}
+
+// FindOrCreateOAuthUser resolves a provider identity to a user, creating one
+// (with a NULL password hash) on first login. Email comes from the provider
+// and is informational only — the identity pair is the login key.
+func (u *Users) FindOrCreateOAuthUser(ctx context.Context, provider, providerUID, email string) (*model.User, error) {
+	var m model.User
+	err := u.pool.QueryRow(ctx, `
+		SELECT us.id, us.email, us.password_hash, us.created_at, us.updated_at
+		FROM oauth_identities oi JOIN users us ON us.id = oi.user_id
+		WHERE oi.provider = $1 AND oi.provider_uid = $2`,
+		provider, providerUID).
+		Scan(&m.ID, &m.Email, &m.PasswordHash, &m.CreatedAt, &m.UpdatedAt)
+	if err == nil {
+		return &m, nil
+	}
+	if !errors.Is(err, pgx.ErrNoRows) {
+		return nil, mapErr(err)
+	}
+	// First login with this identity: create user + identity atomically.
+	tx, err := u.pool.Begin(ctx)
+	if err != nil {
+		return nil, err
+	}
+	defer tx.Rollback(ctx)
+	if email == "" {
+		email = provider + "-" + providerUID + "@users.shortink.local"
+	}
+	err = tx.QueryRow(ctx, `
+		INSERT INTO users (email, password_hash) VALUES ($1, NULL)
+		RETURNING id, email, password_hash, created_at, updated_at`,
+		strings.ToLower(email)).
+		Scan(&m.ID, &m.Email, &m.PasswordHash, &m.CreatedAt, &m.UpdatedAt)
+	if err != nil {
+		return nil, mapErr(err)
+	}
+	if _, err := tx.Exec(ctx,
+		`INSERT INTO oauth_identities (provider, provider_uid, user_id) VALUES ($1, $2, $3)`,
+		provider, providerUID, m.ID); err != nil {
+		return nil, mapErr(err)
+	}
+	if err := tx.Commit(ctx); err != nil {
+		return nil, err
+	}
+	return &m, nil
+}
+
+// LinkOAuthIdentity attaches a provider identity to an existing user.
+func (u *Users) LinkOAuthIdentity(ctx context.Context, provider, providerUID, userID string) error {
+	_, err := u.pool.Exec(ctx,
+		`INSERT INTO oauth_identities (provider, provider_uid, user_id) VALUES ($1, $2, $3)
+		 ON CONFLICT (provider, provider_uid) DO NOTHING`,
+		provider, providerUID, userID)
+	return mapErr(err)
 }
 
 // Sessions implements session persistence. Only token hashes are stored.
