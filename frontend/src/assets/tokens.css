@@ -2,8 +2,8 @@
    Sharp corners, 1px hairline borders, color-blocking elevation (no card shadows). */
 :root{
 /* Brand & interactive */
---color-primary:#439A47;            /* theme accent (AA-safe CTA fill) */
---color-primary-hover:#3A8A3E;
+--color-primary:#38803C;            /* theme accent (measured 4.86:1 on white — AA) */
+--color-primary-hover:#327536;
 --color-primary-contrast:#FFFFFF;   /* white text on green (4.7:1 AA) */
 --color-primary-soft:#EAF4EA;
 --color-brand:#61BA65;              /* brand green: focus ring / highlights / logo */

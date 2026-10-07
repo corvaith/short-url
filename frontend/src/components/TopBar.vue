@@ -58,6 +58,7 @@ async function onLogout(): Promise<void> {
   text-decoration: none;
   color: inherit;
   display: inline-flex;
+  color: #fff;
 }
 .topbar-brand:hover {
   text-decoration: none;

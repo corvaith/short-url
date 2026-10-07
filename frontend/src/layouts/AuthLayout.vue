@@ -5,7 +5,7 @@ import BrandMark from '../components/BrandMark.vue'
 <template>
   <div class="auth-layout">
     <header class="auth-top">
-      <RouterLink to="/" class="auth-brand" aria-label="Short URL home">
+      <RouterLink to="/" class="auth-brand" aria-label="ShortINK home">
         <BrandMark />
       </RouterLink>
     </header>
@@ -35,7 +35,7 @@ import BrandMark from '../components/BrandMark.vue'
 .auth-main {
   flex: 1;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   padding: var(--space-8) var(--page-pad) var(--space-12);
 }

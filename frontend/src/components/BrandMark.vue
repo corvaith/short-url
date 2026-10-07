@@ -16,7 +16,7 @@
   font-weight: var(--weight-semibold);
   font-size: var(--text-lg);
   letter-spacing: -0.01em;
-  color: var(--header-text, var(--color-text));
+  color: inherit;
 }
 .brand-ink {
   color: var(--color-brand);
